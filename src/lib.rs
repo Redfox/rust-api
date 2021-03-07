@@ -4,10 +4,15 @@
 extern crate rocket;
 #[macro_use]
 extern crate rocket_contrib;
+#[macro_use]
+extern crate diesel;
 
+mod models;
 mod config;
 mod routes;
 mod db;
+mod schema;
+mod errors;
 
 use dotenv::dotenv;
 use rocket_contrib::json::JsonValue;
