@@ -17,6 +17,6 @@ pub fn post_users(new_user: Json<NewUser>) -> JsonValue {
   let new_user = new_user.into_inner().user;
 
   json!({
-    "username": new_user.username
+    "username": new_user.username,
   })
 }

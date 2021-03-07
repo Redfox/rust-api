@@ -5,7 +5,9 @@ extern crate rocket;
 #[macro_use]
 extern crate rocket_contrib;
 
+mod config;
 mod routes;
+mod db;
 
 use dotenv::dotenv;
 use rocket_contrib::json::JsonValue;
@@ -28,11 +30,12 @@ fn unprocessable_entity() -> JsonValue {
 
 pub fn rocket() -> rocket::Rocket {
   dotenv().ok();
-  rocket::ignite()
+  rocket::custom(config::config::default())
     .mount("/api",
-    routes![
-      routes::users::post_users,
-    ],
-  )
-  .register(catchers![not_found, unprocessable_entity])
+      routes![
+        routes::users::post_users,
+      ],
+    )
+    .attach(db::Conn::fairing())
+    .register(catchers![not_found, unprocessable_entity])
 }
